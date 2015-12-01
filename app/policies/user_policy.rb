@@ -10,7 +10,7 @@ class UserPolicy < ApplicationPolicy
     def resolve
       if user.role?(:boss)
         scope.all
-      elsif user.role(:head)
+      elsif user.role?(:head)
         scope.where(department_id: user.department_id)
       else
         scope.where(id: user.id)
