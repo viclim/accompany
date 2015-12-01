@@ -1,4 +1,6 @@
 class UserPolicy < ApplicationPolicy
+  attr_reader :user, :item
+
   class Scope
     attr_reader :user, :scope
 
@@ -19,25 +21,27 @@ class UserPolicy < ApplicationPolicy
   end
 
   def initialize(user, item)
-
+    @user = user
+    @item = item
   end
 
   def create?
-    user.role?(:boss) || (user.role?(:head) && user.department == item.department)
+    modify?
   end
 
   def update?
+    modify?
   end
 
   def destroy?
-
+    modify?
   end
 
   private
 
   def modify?
     user.role?(:boss) ||
-      (user.role?(:head) && user.department == item.department) ||
-      user.department.name == 'HR'
+      user.hr? ||
+      (user.role?(:head) && user.department == item.department)
   end
 end

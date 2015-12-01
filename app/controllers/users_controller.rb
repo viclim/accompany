@@ -16,17 +16,20 @@ class UsersController < ApplicationController
   def new
     @title = 'New User'
     @user = User.new
+    authorize @user, :create?
   end
 
   # GET /users/1/edit
   def edit
     @title = 'Edit User'
+    authorize @user, :update?
   end
 
   # POST /users
   # POST /users.json
   def create
     @user = User.new(user_params)
+    authorize @user, :create?
 
     respond_to do |format|
       if @user.save
@@ -42,6 +45,7 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
+    authorize @user, :update?
     respond_to do |format|
       if @user.update(user_params)
         format.html { redirect_to action: :index, notice: 'User was successfully updated.' }
@@ -56,6 +60,7 @@ class UsersController < ApplicationController
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
+    authorize @user, :destroy?
     @user.destroy
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
