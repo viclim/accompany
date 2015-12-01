@@ -37,6 +37,14 @@ class UserPolicy < ApplicationPolicy
     modify?
   end
 
+  def salary?
+    user.id == item.id
+  end
+
+  def promote?
+    user.role?(:boss) || (user.hr? && user.role?(:head))
+  end
+
   private
 
   def modify?

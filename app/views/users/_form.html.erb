@@ -43,12 +43,18 @@
                 <%= f.select :role, [['Head', 'Head'], ['Slave', 'Slave']] %>
             </div>
         </div>
-        <div class="uk-form-row">
-            <label class="uk-form-label" for="">Salary</label>
-            <div class="uk-form-controls">
-                <%= f.text_field :salary %>
+        <% if policy(@user).salary? || policy(@user).promote? %>
+            <div class="uk-form-row">
+                <label class="uk-form-label" for="">Salary</label>
+                <div class="uk-form-controls">
+                    <% if policy(@user).promote? %>
+                        <%= f.text_field :salary %>
+                    <% else %>
+                        <%= @user.salary %>
+                    <% end %>
+                </div>
             </div>
-        </div>
+        <% end %>
         <div class="uk-form-row">
             <%= f.submit 'Update', class: 'uk-button uk-button-primary' %>
         </div>
