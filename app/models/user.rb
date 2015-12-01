@@ -11,6 +11,6 @@ class User < ActiveRecord::Base
   end
 
   def hr?
-    department.name.dowcase == "hr"
+    department.try(:name).try(:downcase) == 'hr'
   end
 end
